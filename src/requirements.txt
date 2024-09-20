@@ -1,5 +1,5 @@
-fastapi==0.115.0
-uvicorn[standard]==0.30.6
-pydantic-settings==2.5.2
-motor==3.4.0
+fastapi==0.110.2
+uvicorn[standard]==0.29.0
+motor==3.1.1
 pydantic-mongo==2.3.0
+pymongo==4.3.3
