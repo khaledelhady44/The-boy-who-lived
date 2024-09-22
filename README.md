@@ -34,6 +34,8 @@ $ pip install -r requirements.txt
 $ cp .env.example .env
 ```
 
+- update `.env` with your credentials.
+
 ## Run Docker Compose Services
 
 ```bash
@@ -41,7 +43,7 @@ $ cd docker
 $ cp .env.example .env
 ```
 
-- update `.env` with your credentials
+- update `.env` with your credentials.
 
 
 
