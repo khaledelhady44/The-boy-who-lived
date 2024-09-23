@@ -41,8 +41,10 @@ class UserController:
             bool: Returns True if the user registration is successful.
         """
         
-        if await self.user_model.user_exists(user):
+        if await self.user_model.username_exists(user):
             raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail = "Username already in use")
+        elif await self.user_model.email_exists(user):
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail = "email already in use")
         
         await self.user_model.create_user(user)
         return True

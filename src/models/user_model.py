@@ -56,24 +56,33 @@ class UserModel(BaseDataModel):
         
         return None
         
-    async def user_exists(self, user:UserInDB) -> bool:
+    async def username_exists(self, user:UserInDB) -> bool:
         
         """
         Checks if a user with the given username exists in the database.
 
         Args:
-            username (str): The username to check for existence.
+            user (UserInDB): The user to check for existence of its username.
 
         Returns:
             bool: True if the user exists, False otherwise.
         """
 
-        query = {
-            "$or": [
-                {"username": user.username},
-                {"email": user.email}
-            ]
-        }
+        user_data = await self.collection.find_one({"username": user.username})
+        return user_data is not None
+    
 
-        user_data = await self.collection.find_one(query)
+    async def email_exists(self, user:UserInDB) -> bool:
+        
+        """
+        Checks if a user with the given email exists in the database.
+
+        Args:
+            user (UserInDB): The user to check for existence of its email.
+
+        Returns:
+            bool: True if the user exists, False otherwise.
+        """
+
+        user_data = await self.collection.find_one({"email": user.email})
         return user_data is not None
