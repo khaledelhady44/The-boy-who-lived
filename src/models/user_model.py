@@ -1,7 +1,7 @@
-from base_data_model import BaseDataModel
+from models import BaseDataModel
 from motor.motor_asyncio import AsyncIOMotorClient
-from ..schemas.db.user_in_db import UserInDB
-from ..enums import DataBaseEnum
+from schemas.db import UserInDB
+from enums import DataBaseEnum
 from typing import Optional
 
 
@@ -56,7 +56,8 @@ class UserModel(BaseDataModel):
         
         return None
         
-    async def user_exists(self, username: str) -> bool:
+    async def user_exists(self, user:UserInDB) -> bool:
+        
         """
         Checks if a user with the given username exists in the database.
 
@@ -67,5 +68,12 @@ class UserModel(BaseDataModel):
             bool: True if the user exists, False otherwise.
         """
 
-        user_data = await self.collection.find_one({"username": username})
+        query = {
+            "$or": [
+                {"username": user.username},
+                {"email": user.email}
+            ]
+        }
+
+        user_data = await self.collection.find_one(query)
         return user_data is not None
