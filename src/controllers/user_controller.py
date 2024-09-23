@@ -1,4 +1,5 @@
-from models import UserModel, UserInDB
+from models import UserModel
+from schemas.db import UserInDB
 from fastapi import HTTPException, status
 
 class UserController:

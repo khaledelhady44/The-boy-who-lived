@@ -1,5 +1,5 @@
 from pydantic import Field
-from ..requests import User
+from schemas.requests import User
 from bson.objectid import ObjectId
 
 class UserInDB(User):

@@ -3,3 +3,4 @@ uvicorn[standard]==0.29.0
 motor==3.1.1
 pydantic-mongo==2.3.0
 pymongo==4.3.3
+pydantic[email]==2.9.2

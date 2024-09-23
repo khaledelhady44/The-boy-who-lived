@@ -1,7 +1,6 @@
 from fastapi import APIRouter, status, Request
-from ..schemas.requests.user import User
-from ..schemas.db.user_in_db import UserInDB
-from models.user_model import UserModel
+from schemas.requests.user import User
+from schemas.db.user_in_db import UserInDB
 from controllers.user_controller import UserController
 
 
@@ -27,7 +26,7 @@ async def register_user(request: Request, user: User):
         UserInDB: The registered user information as it is stored in the database, 
                   excluding sensitive data like the raw password
     """
-    
+
     user_controller = request.app.user_controller
 
     user_in_db = UserInDB(**user.dict())
