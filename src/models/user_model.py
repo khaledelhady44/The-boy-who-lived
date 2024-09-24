@@ -1,6 +1,6 @@
 from models import BaseDataModel
 from motor.motor_asyncio import AsyncIOMotorClient
-from schemas.db import UserInDB
+from schemas.user import UserInDB
 from enums import DataBaseEnum
 from typing import Optional
 

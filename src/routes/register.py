@@ -1,6 +1,5 @@
 from fastapi import APIRouter, status, Request
-from schemas.requests.user import User
-from schemas.db.user_in_db import UserInDB
+from schemas.user import RegisterUser, UserInDB
 from controllers.user_controller import UserController
 
 
@@ -8,7 +7,7 @@ register = APIRouter()
 
 
 @register.post("/register", response_model=UserInDB, status_code=status.HTTP_201_CREATED)
-async def register_user(request: Request, user: User):
+async def register_user(request: Request, user: RegisterUser):
     """
     Register a new user in the application.
 
