@@ -1,4 +1,4 @@
-from base_user import BaseUser
+from schemas.user  import BaseUser
 from pydantic import Field, EmailStr
 
 class LoginUser(BaseUser):
@@ -17,6 +17,5 @@ class LoginUser(BaseUser):
         The user's password, required for login.
     """
 
-    username: str | None = None
     email: EmailStr | None = None
     password: str = Field(..., min_length = 1)

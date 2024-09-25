@@ -6,7 +6,7 @@ from controllers.user_controller import UserController
 register = APIRouter()
 
 
-@register.post("/register", response_model=UserInDB, status_code=status.HTTP_201_CREATED)
+@register.post("/register", response_model=RegisterUser, status_code=status.HTTP_201_CREATED)
 async def register_user(request: Request, user: RegisterUser):
     """
     Register a new user in the application.
@@ -28,10 +28,9 @@ async def register_user(request: Request, user: RegisterUser):
 
     user_controller = request.app.user_controller
 
-    user_in_db = UserInDB(**user.dict())
-    await user_controller.register(user=user_in_db)
+    await user_controller.register(user=user)
 
-    return user_in_db
+    return user
 
     
 

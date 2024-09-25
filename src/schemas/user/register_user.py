@@ -1,5 +1,5 @@
 from pydantic import Field
-from base_user import BaseUser
+from schemas.user import BaseUser
 
 class RegisterUser(BaseUser):
     """

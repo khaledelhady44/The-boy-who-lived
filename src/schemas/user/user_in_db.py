@@ -1,5 +1,5 @@
 from pydantic import Field
-from base_user import BaseUser
+from schemas.user import BaseUser
 from bson.objectid import ObjectId
 
 class UserInDB(BaseUser):
@@ -20,5 +20,5 @@ class UserInDB(BaseUser):
     """
     
     full_name: str = Field(..., min_length=1)
-    hashed_password: str
+    hashed_password: str = Field(..., min_lenght = 1)
     id: str = Field(default_factory=lambda: str(ObjectId()))
