@@ -18,12 +18,11 @@ async def register_user(request: Request, user: RegisterUser):
     Args:
         request (Request): The incoming HTTP request object, containing app-level 
                            dependencies like the user controller.
-        user (User): The user data provided in the request body. This is validated 
-                     against the User schema.
+        user (RegisterUser): The user data provided in the request body. This is validated 
+                     against the RegisterUser schema.
 
     Returns:
-        UserInDB: The registered user information as it is stored in the database, 
-                  excluding sensitive data like the raw password
+        RegisterUser: The registered user information.
     """
 
     user_controller = request.app.user_controller

@@ -33,7 +33,7 @@ class UserController:
         not exist, the user is created in the database.
 
         Args:
-            user (UserInDB): An instance of UserInDB containing user 
+            user (RegisterUser): An instance of RegisterUser containing user 
             information required for registration.
 
         Raises:
