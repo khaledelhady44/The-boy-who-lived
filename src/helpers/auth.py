@@ -2,15 +2,16 @@ from passlib.context import CryptContext
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from typing import Optional
-from helpers import Settings, get_settings
+from helpers import get_settings
 from fastapi import HTTPException, status
 from pydantic import ValidationError
+from enums import auth_enums
+from schemas.auth import Token, TokenData
 
 
 settings = get_settings()
 SECRET_KEY = settings.SECRET_KEY
 ALGORITHM = settings.ALGORITHM
-ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated = "auto")
 
@@ -51,7 +52,7 @@ def get_password_hash(password: str) -> str:
 
     return pwd_context.hash(password)
 
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> Token:
     """
     Creates a JWT access token with an optional expiration time.
 
@@ -66,24 +67,24 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
 
     Returns:
     -------
-    str
-        The encoded JWT access token.
+    Token
+        Represents an access token model for the authentication system
     """
 
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
     else:
-        expire = datetime.utcnow() + timedelta(minutes=Settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+        expire = datetime.utcnow() + timedelta(minutes=auth_enums.ACCESS_TOKEN_EXPIRE_MINUTES.value)
 
     to_encode.update({"exp": expire})
 
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
-    return encoded_jwt
+    return Token(**{"access_token": encoded_jwt, "token_type": "bearer"})
 
 
-def decode_access_token(token: str) -> str:
+def decode_access_token(token: str) -> TokenData:
     """
     Decodes a JWT access token to extract the user information (usually the username).
 
@@ -94,8 +95,8 @@ def decode_access_token(token: str) -> str:
     
     Returns:
     -------
-    str
-        The username extracted from the token, if the token is valid.
+    TokenData
+        Represents the data contained within the access token.
     """
 
     try:
@@ -109,4 +110,4 @@ def decode_access_token(token: str) -> str:
                 headers={"WWW-Authenticate": "Bearer"},
             )
 
-    return username
+    return TokenData(**{"username": username})
