@@ -1,9 +1,11 @@
 from models import UserModel
 from schemas.user import UserInDB, RegisterUser, LoginUser
 from fastapi import HTTPException, status
-from helpers import verify_password, create_access_token
+from helpers import verify_password, create_access_token, decode_access_token
 from datetime import timedelta
 from helpers import get_password_hash
+from schemas.auth import Token, TokenData
+from enums import Auth
 
 class UserController:
     """
@@ -56,7 +58,17 @@ class UserController:
         await self.user_model.create_user(user_in_db)
         return True
     
-    async def authenticate_user(self, user: LoginUser) -> str:
+    async def authenticate_user(self, user: LoginUser) -> Token:
+        """
+        Authenticate a user by verifying their username and password.
+
+        Parameters:
+        - user (LoginUser): The user object containing the username and password.
+
+        Returns:
+        - Token: Represents an access token model for the authentication system.
+        """
+
         username = user.username
         password = user.password
 
@@ -76,12 +88,38 @@ class UserController:
                 headers = {"WWW-Authenticate": "Bearer"}
             )
         
-        access_token_expires = timedelta(minutes = 30)
+        access_token_expires = timedelta(minutes = Auth.ACCESS_TOKEN_EXPIRE_MINUTES.value)
         access_token = create_access_token(
             data = {"sub": user.username},
             expires_delta=access_token_expires
         )
 
         return access_token
+
+    async def get_current_user(self, token: str) -> TokenData:
+        """
+        Retrieve the current authenticated user based on the provided JWT token.
+
+        Parameters:
+        - token (str): The JWT token from the Authorization header.
+
+        Returns:
+        - TokenData: Represents the data contained within the access token.
+
+        Raises:
+        - HTTPException: If the token is invalid or if the user cannot be found,
+          raises a 401 Unauthorized error.
+        """
+        
+        user_name = decode_access_token(token).username
+        user = await self.user_model.get_user(user_name)
+        if user is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Could not validate credentials",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+
+        return TokenData(**{"username": user_name})
         
 

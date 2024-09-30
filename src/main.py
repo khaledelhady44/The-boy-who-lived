@@ -1,6 +1,6 @@
 from helpers.config import get_settings
 from fastapi import FastAPI
-from routes import register
+from routes import register, login
 from models.user_model import UserModel
 from controllers.user_controller import UserController
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -25,3 +25,4 @@ async def shutdown_db_client():
 
 
 app.include_router(register)
+app.include_router(login)
