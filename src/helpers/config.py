@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     SECRET_KEY: str
     ALGORITHM: str
 
+
     class Config:
         env_file = "/mnt/d/The-boy-who-lived/src/.env" # path problem
 
