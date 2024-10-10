@@ -1,6 +1,6 @@
 from models import BaseDataModel
 from motor.motor_asyncio import AsyncIOMotorClient
-from schemas.chat import MessageInDB
+from schemas.message import MessageInDB
 from enums import DataBaseEnum
 
 class MessageModel(BaseDataModel):

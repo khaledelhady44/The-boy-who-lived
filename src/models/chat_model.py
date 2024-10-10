@@ -11,9 +11,10 @@ class ChatModel(BaseDataModel):
         self.collection = self.db_client[DataBaseEnum.CHAT_COLLECTION.value]
 
 
-    async def create_chat(self, chat: ChatInDB) -> None:
+    async def create_chat(self, chat: ChatInDB) -> ChatInDB:
         chat_dict = chat.dict()
         await self.collection.insert_one(chat_dict)
+        return chat
 
     async def get_chat(self, session_id: str) -> Optional[ChatInDB]:
 
@@ -24,8 +25,8 @@ class ChatModel(BaseDataModel):
         return None
 
     async def get_all_chats(self, user_id: str, limit: int) -> Optional[list[ChatInDB]]:
-        chats_cursor = await self.collection.find({"user_id": user_id}).limit(limit)
-
+        chats_cursor = self.collection.find({"user_id": user_id}).limit(limit)
+        
         chats = []
         async for chat in chats_cursor:
             chats.append(ChatInDB(**chat))
@@ -36,3 +37,5 @@ class ChatModel(BaseDataModel):
 
         chat_data = await self.collection.find_one({"session_id": chat.session_id})
         return chat_data is not None
+    
+    
