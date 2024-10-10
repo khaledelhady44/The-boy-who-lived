@@ -3,5 +3,5 @@ from schemas.chat import BaseChat
 
 
 class CreateChat(BaseChat):
-    pass
+    user_id: str = Field(...)
     
