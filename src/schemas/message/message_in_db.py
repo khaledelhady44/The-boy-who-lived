@@ -1,6 +1,8 @@
 from schemas.message import BaseMessage
 from pydantic import Field
 from bson import ObjectId
+from typing import Optional
 
 class MessageInDB(BaseMessage):
-    id: str = Field(default_facotry = lambda: str(ObjectId()))
+    id: Optional[str] = Field(default_factory = lambda: str(ObjectId()))
+                    
