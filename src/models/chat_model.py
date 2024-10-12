@@ -33,9 +33,9 @@ class ChatModel(BaseDataModel):
 
         return chats
     
-    async def chat_exists(self, chat:ChatInDB) -> bool:
+    async def chat_exists(self, session_id: str, user_id: str) -> bool:
 
-        chat_data = await self.collection.find_one({"session_id": chat.session_id})
+        chat_data = await self.collection.find_one({"session_id": session_id, "user_id": user_id})
         return chat_data is not None
     
     

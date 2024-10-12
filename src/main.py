@@ -3,8 +3,11 @@ from fastapi import FastAPI
 from routes import register, login, chat
 from models.user_model import UserModel
 from models.chat_model import ChatModel
+from models.message_model import MessageModel
 from controllers.user_controller import UserController
 from controllers.chat_controller import ChatController
+from controllers.message_controller import MessageController
+
 from motor.motor_asyncio import AsyncIOMotorClient
 
 
@@ -22,6 +25,9 @@ async def startup_db_client():
 
     app.chat_model = ChatModel(app.db_client)
     app.chat_controller = ChatController(app.chat_model)
+
+    app.message_model = MessageModel(app.db_client)
+    app.message_controller = MessageController(app.message_model)
 
 
 @app.on_event("shutdown")

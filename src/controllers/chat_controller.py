@@ -17,9 +17,12 @@ class ChatController:
 
 
     async def get_chat(self, session_id: str) -> ChatInDB:
-        return await self.chat_model.get_chat()
+        return await self.chat_model.get_chat(session_id)
     
     async def get_all_chats(self, user_id: str, limit: int = ChatSettings.CHATS_COUNT_LIMIT.value):
         return await self.chat_model.get_all_chats(user_id, limit)
+    
+    async def chat_exists(self, session_id: str, user_id: str) -> bool:
+        return await self.chat_model.chat_exists(session_id, user_id)
     
     
