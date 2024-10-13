@@ -18,7 +18,7 @@ async def create_chat(request: Request, token: str = Depends(oauth2_scheme)):
     chat_dict.update({"user_id": current_user.username})
     return await chat_controller.create_chat(CreateChat(**chat_dict))
 
-@chat.get("/", response_model = list[ChatInDB])
+@chat.get("/", response_model = list[ChatInDB], status_code=status.HTTP_200_OK)
 async def get_chats(request: Request, token: str = Depends(oauth2_scheme)):
     chat_controller = request.app.chat_controller
     user_controller = request.app.user_controller

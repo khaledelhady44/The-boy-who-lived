@@ -7,7 +7,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 login = APIRouter()
 
-@login.post("/login", response_model=Token)
+@login.post("/login", response_model=Token, status_code=status.HTTP_200_OK)
 async def login_user(request: Request, user_login: LoginUser) -> Token:
     """
     Handle user login by authenticating the provided username or email and password.
@@ -22,7 +22,6 @@ async def login_user(request: Request, user_login: LoginUser) -> Token:
     Raises:
     - HTTPException: If neither username nor email is provided, a 400 Bad Request is raised.
     """
-
     user_controller = request.app.user_controller
 
     if not user_login.username and not user_login.email:
