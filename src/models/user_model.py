@@ -1,6 +1,6 @@
 from models import BaseDataModel
 from motor.motor_asyncio import AsyncIOMotorClient
-from schemas.user import UserInDB
+from schemas import UserInDB
 from enums import DataBaseEnum
 from typing import Optional
 
@@ -25,7 +25,7 @@ class UserModel(BaseDataModel):
         super().__init__(db_client=db_client)
         self.collection = self.db_client[DataBaseEnum.USER_COLLECTION.value]
 
-    async def create_user(self, user: UserInDB) -> None:
+    async def create_user(self, user: UserInDB) -> UserInDB:
         """
         Inserts a new user into the database.
 
@@ -33,7 +33,8 @@ class UserModel(BaseDataModel):
             user (UserInDB): The user data to insert, represented as a UserInDB instance.
 
         Returns:
-            None: This function does not return a value.
+            UserInDB
+                The inserted chat object.
         """
 
         user_dict = user.dict()

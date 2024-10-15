@@ -1,7 +1,6 @@
 from fastapi import APIRouter, status, Request, Depends, HTTPException
-from schemas.user import LoginUser
+from schemas import LoginUser, Token, TokenData
 from fastapi.security import OAuth2PasswordBearer
-from schemas.auth import Token, TokenData
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -23,12 +22,6 @@ async def login_user(request: Request, user_login: LoginUser) -> Token:
     - HTTPException: If neither username nor email is provided, a 400 Bad Request is raised.
     """
     user_controller = request.app.user_controller
-
-    if not user_login.username and not user_login.email:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Must provide either username or email."
-        )
     access_token = await user_controller.authenticate_user(user_login)
 
     return access_token
@@ -48,4 +41,5 @@ async def read_users_me(request: Request, token: str = Depends(oauth2_scheme)) -
 
     user_controller = request.app.user_controller
     current_user = await user_controller.get_current_user(token)
+
     return current_user

@@ -1,6 +1,5 @@
 from fastapi import APIRouter, status, Request
-from schemas.user import RegisterUser, UserInDB
-from controllers.user_controller import UserController
+from schemas import RegisterUser
 
 
 register = APIRouter()
@@ -26,7 +25,6 @@ async def register_user(request: Request, user: RegisterUser):
     """
 
     user_controller = request.app.user_controller
-
     await user_controller.register(user=user)
 
     return user

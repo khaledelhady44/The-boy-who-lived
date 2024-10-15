@@ -1,10 +1,9 @@
 fastapi==0.110.2
-uvicorn[standard]==0.25.0
+uvicorn[standard]==0.31.1
 motor==3.1.1
 pydantic-mongo==2.3.0
 pymongo==4.3.3
 pydantic[email]==2.9.2
 python-jose==3.3.0
 passlib[bcrypt]==1.7.4
-python-multipart==0.0.9
-chainlit==1.2.0
+python-multipart==0.0.12

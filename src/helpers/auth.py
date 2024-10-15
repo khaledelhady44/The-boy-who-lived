@@ -6,7 +6,7 @@ from helpers import get_settings
 from fastapi import HTTPException, status
 from pydantic import ValidationError
 from enums import auth_enums
-from schemas.auth import Token, TokenData
+from schemas import Token, TokenData
 
 
 settings = get_settings()
