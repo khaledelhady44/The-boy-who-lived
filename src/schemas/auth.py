@@ -16,6 +16,11 @@ class Token(BaseModel):
     access_token: str
     token_type: str
 
+    username: str | None = None
+    email: str | None = None
+    full_name: str | None = None
+
+
 
 class TokenData(BaseModel):
     """
@@ -28,3 +33,5 @@ class TokenData(BaseModel):
     """
     
     username: str | None = None
+    email: str | None = None
+    full_name: str | None = None

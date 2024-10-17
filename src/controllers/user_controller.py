@@ -120,6 +120,6 @@ class UserController:
                 headers={"WWW-Authenticate": "Bearer"},
             )
 
-        return TokenData(**{"username": user_name})
+        return TokenData(**user.dict())
         
 
