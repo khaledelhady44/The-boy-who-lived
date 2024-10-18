@@ -87,7 +87,7 @@ async def send_message(websocket: WebSocket, chat_id: str, user_controller: User
             await manager.send_message_to_chat(harry_message.message,"SYSTEM", chat_id)
 
     except WebSocketDisconnect:
-        websocket.close(code= 1008)
+        await websocket.close(code= 1008)
         manager.disconnect(websocket, chat_id)
     
     
