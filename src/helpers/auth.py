@@ -99,15 +99,7 @@ def decode_access_token(token: str) -> TokenData:
         Represents the data contained within the access token.
     """
 
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str | None = payload.get("sub")
-
-    except (JWTError, ValidationError):
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Could not validate credentials",
-                headers={"WWW-Authenticate": "Bearer"},
-            )
-
+    payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    username: str | None = payload.get("sub")
+            
     return TokenData(**{"username": username})

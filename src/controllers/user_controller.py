@@ -6,6 +6,7 @@ from datetime import timedelta
 from helpers import get_password_hash
 from schemas.auth import Token, TokenData
 from enums import Auth
+from typing import Optional
 
 class UserController:
     """
@@ -96,7 +97,7 @@ class UserController:
 
         return access_token
 
-    async def get_current_user(self, token: str) -> TokenData:
+    async def get_current_user(self, token: str) -> Optional[TokenData]:
         """
         Retrieve the current authenticated user based on the provided JWT token.
 
@@ -113,12 +114,6 @@ class UserController:
         
         user_name = decode_access_token(token).username
         user = await self.user_model.get_user(user_name)
-        if user is None:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Could not validate credentials",
-                headers={"WWW-Authenticate": "Bearer"},
-            )
 
         return TokenData(**user.dict())
         

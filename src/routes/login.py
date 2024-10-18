@@ -1,5 +1,5 @@
-from fastapi import APIRouter, status, Request, Depends, HTTPException
-from schemas import LoginUser, Token, TokenData
+from fastapi import APIRouter, status, Request
+from schemas import LoginUser, Token
 from fastapi.security import OAuth2PasswordBearer
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")

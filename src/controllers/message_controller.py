@@ -1,5 +1,6 @@
 from models import MessageModel
 from schemas.message import CreateMessage, MessageInDB
+from typing import Optional
 
 class MessageController:
     """
@@ -42,7 +43,7 @@ class MessageController:
         message_dict = message.dict()  # Convert CreateMessage to dictionary
         return await self.message_model.create_message(MessageInDB(**message_dict))
 
-    async def get_full_chat(self, chat_id: str) -> list[MessageInDB]:
+    async def get_full_chat(self, chat_id: str) -> Optional[list[MessageInDB]]:
         """
         Retrieves all messages from the database for a specific chat, ordered by timestamp.
 
