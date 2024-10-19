@@ -45,12 +45,10 @@ async def verify(chat_id: str, user_controller: UserController, chat_controller:
     try:
         current_user = await user_controller.get_current_user(token)
     except Exception as e:
-        print("lol")
         raise WebSocketException(code=status.WS_1008_POLICY_VIOLATION, reason="Invalid or Expired token")
     
 
     if not await chat_controller.chat_exists(chat_id, current_user.username):
-        print("lol")
         raise WebSocketException(code=status.WS_1008_POLICY_VIOLATION, reason="No such User or chat")
 
 @message.websocket("/{chat_id}/send")
@@ -59,7 +57,11 @@ async def send_message(websocket: WebSocket, chat_id: str, user_controller: User
                                                             message_controller: MessageController = Depends(get_message_controller)):
     
     token = websocket.headers.get("Authorization")
-    await verify(chat_id, user_controller, chat_controller, token)
+
+    try:
+        await verify(chat_id, user_controller, chat_controller, token)
+    except Exception as e:
+        raise e
         
     await manager.connect(websocket, chat_id)
 
@@ -89,8 +91,9 @@ async def send_message(websocket: WebSocket, chat_id: str, user_controller: User
             await manager.send_message_to_chat(harry_message.message,"SYSTEM", chat_id)
 
     except WebSocketDisconnect:
-        await websocket.close(code= 1008)
         manager.disconnect(websocket, chat_id)
+        await websocket.close(code= 1008)
+        
     
     
             
