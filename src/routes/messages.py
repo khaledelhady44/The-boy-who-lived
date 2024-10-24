@@ -4,6 +4,8 @@ from fastapi.security import OAuth2PasswordBearer
 from schemas import CreateMessage, MessageInDB
 from controllers import UserController, ChatController, MessageController
 from helpers import get_user_controller, get_chat_controller, get_message_controller
+from llm import app
+from langchain.schema import  HumanMessage
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -44,7 +46,7 @@ async def verify(chat_id: str, user_controller: UserController, chat_controller:
     token = token.split(" ")[1]
     try:
         current_user = await user_controller.get_current_user(token)
-    except Exception as e:
+    except Exception:
         raise WebSocketException(code=status.WS_1008_POLICY_VIOLATION, reason="Invalid or Expired token")
     
 
@@ -78,10 +80,14 @@ async def send_message(websocket: WebSocket, chat_id: str, user_controller: User
                 message = data
             )
 
+            config = {"configurable": {"thread_id": chat_id}}
+            input_messages = [HumanMessage(data)]
+            output = app.invoke({"messages": input_messages}, config)
+
             harry_message = CreateMessage(
                 chat_id = chat_id,
                 sender = "SYSTEM",
-                message = "I am harry"
+                message = output["messages"][-1].content
             )
 
             await message_controller.create_message(user_message)
