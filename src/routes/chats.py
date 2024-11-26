@@ -6,7 +6,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 chat = APIRouter(prefix="/chats")
 
-@chat.post("/", response_model=ChatInDB, status_code=status.HTTP_201_CREATED)
+@chat.post("/create", response_model=ChatInDB, status_code=status.HTTP_201_CREATED)
 async def create_chat(request: Request, chat: CreateChat, token: str = Depends(oauth2_scheme)):
     """
     Creates a new chat for the current authenticated user.
