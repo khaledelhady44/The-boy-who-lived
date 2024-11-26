@@ -4,8 +4,8 @@ from fastapi.security import OAuth2PasswordBearer
 from schemas import CreateMessage, MessageInDB
 from controllers import UserController, ChatController, MessageController
 from helpers import get_user_controller, get_chat_controller, get_message_controller
-from llm import app
-from langchain.schema import  HumanMessage
+from agents import agent_answer
+import asyncio
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -80,21 +80,26 @@ async def send_message(websocket: WebSocket, chat_id: str, user_controller: User
                 message = data
             )
 
-            config = {"configurable": {"thread_id": chat_id}}
-            input_messages = [HumanMessage(data)]
-            output = app.invoke({"messages": input_messages}, config)
+
+            await message_controller.create_message(user_message)
+            await manager.send_message_to_chat(user_message.message,"USER", chat_id)
+
+            await asyncio.sleep(0)
+
+        
+            output = agent_answer(data, chat_id)
 
             harry_message = CreateMessage(
                 chat_id = chat_id,
                 sender = "SYSTEM",
-                message = output["messages"][-1].content
+                message = output
             )
 
-            await message_controller.create_message(user_message)
+            
             await message_controller.create_message(harry_message)
-
-            await manager.send_message_to_chat(user_message.message,"USER", chat_id)
             await manager.send_message_to_chat(harry_message.message,"SYSTEM", chat_id)
+
+            await asyncio.sleep(0)
 
     except WebSocketDisconnect:
         manager.disconnect(websocket, chat_id)
