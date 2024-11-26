@@ -43,7 +43,7 @@ llm = ChatGoogleGenerativeAI(
 harry = llm
 
 
-def get_harry_answer(state: MessagesState):
+def call_llm(state: MessagesState):
     chain = harry_prompt | harry
     result = chain.invoke(state["messages"])
     return {"messages": [AIMessage(content=result.content, name="harry potter")]}
@@ -52,7 +52,7 @@ def get_harry_answer(state: MessagesState):
 
 workflow = StateGraph(state_schema=MessagesState)
 
-workflow.add_node("harry", get_harry_answer)
+workflow.add_node("harry", call_llm)
 workflow.add_edge(START, "harry")
 workflow.add_edge("harry", END)
 
@@ -60,7 +60,7 @@ workflow.add_edge("harry", END)
 memory = MemorySaver()
 app = workflow.compile(checkpointer=memory)
 
-def agent_answer(query: str, thread_id: str):
+def get_harry_answer(query: str, thread_id: str):
     config = {"configurable": {"thread_id": thread_id}}
     output = app.invoke({"messages": query}, config)
     return output["messages"][-1].content

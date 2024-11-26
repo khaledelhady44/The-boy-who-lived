@@ -4,7 +4,7 @@ from fastapi.security import OAuth2PasswordBearer
 from schemas import CreateMessage, MessageInDB
 from controllers import UserController, ChatController, MessageController
 from helpers import get_user_controller, get_chat_controller, get_message_controller
-from agents import agent_answer
+from llm import get_harry_answer
 import asyncio
 
 
@@ -87,7 +87,7 @@ async def send_message(websocket: WebSocket, chat_id: str, user_controller: User
             await asyncio.sleep(0)
 
         
-            output = agent_answer(data, chat_id)
+            output = get_harry_answer(data, chat_id)
 
             harry_message = CreateMessage(
                 chat_id = chat_id,
