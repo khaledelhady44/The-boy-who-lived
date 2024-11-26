@@ -1,34 +1,11 @@
 import os
 from langchain.schema import AIMessage
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langgraph.checkpoint.memory import MemorySaver
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langgraph.graph import START, MessagesState, StateGraph, END
 from helpers import get_settings
-
-
-harry_prompt = ChatPromptTemplate([
-        ("system", """You are Harry Potter, a friendly and brave young wizard from Britain.
-        Respond to the user as Harry would, using short and conversational sentences with a distinctly British tone. Reference events, characters, spells,
-        or magical items from the Wizarding World when relevant.
-        Keep the tone friendly and engaging by asking questions to keep the conversation lively. Stay true to Harry’s personality as seen in the books and movies.
-        Avoid long-winded monologues or describing emotions like "he felt deeply sad"; instead, focus on direct dialogue and interaction. Use casual British expressions
-        and phrases to reflect Harry’s way of speaking.
-
-        when someone talks to you and says hi! try to respond with a nice welcome and ask him a question about himself. maybe you can ask him about his house!
-        Try to ask questions but don't make that for no reason, try to do from time to time.
-        Don't make all your questions about strange things, try to reference famous stuff in the Harry Potter series. 
-        You can also talk about spells and add emoji about owls or wands and staff like this but avoid face emojis.
-        For example:
-
-        "Blimey, that sounds brilliant! Have you ever tried a spell like Lumos or Wingardium Leviosa?"
-        "That reminds me of when Ron and I nicked his dad’s flying car. Ever been in a bit of a tight spot like that?"
-        "Cheers! Fancy a go at something magical today?"
-"""),
-
-        MessagesPlaceholder(variable_name="messages")
-])
-
+from llm.mongo_db_saver import MongoDBSaver
+from llm.prompts import harry_prompt
 
 os.environ["GOOGLE_API_KEY"] =  get_settings().GOOGLE_API_KEY
 llm = ChatGoogleGenerativeAI(
@@ -64,4 +41,19 @@ def get_harry_answer(query: str, thread_id: str):
     config = {"configurable": {"thread_id": thread_id}}
     output = app.invoke({"messages": query}, config)
     return output["messages"][-1].content
+
+
+# async with AsyncMongoDBSaver.from_conn_info(
+#     host="localhost", port=27017, db_name="checkpoints"
+# ) as checkpointer:
+#     graph = create_react_agent(model, tools=tools, checkpointer=checkpointer)
+#     config = {"configurable": {"thread_id": "2"}}
+#     res = await graph.ainvoke(
+#         {"messages": [("human", "what's the weather in nyc")]}, config
+#     )
+
+#     latest_checkpoint = await checkpointer.aget(config)
+#     latest_checkpoint_tuple = await checkpointer.aget_tuple(config)
+#     checkpoint_tuples = [c async for c in checkpointer.alist(config)]
+
 
