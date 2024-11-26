@@ -27,4 +27,4 @@ class ChatSettings(Enum):
         The maximum number of chats a user can get.
     """
     
-    CHATS_COUNT_LIMIT = 5
+    CHATS_COUNT_LIMIT = 30
