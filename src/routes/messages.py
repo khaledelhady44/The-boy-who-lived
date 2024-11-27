@@ -1,11 +1,12 @@
 import json
+import asyncio
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect, WebSocketException, status, Depends
 from fastapi.security import OAuth2PasswordBearer
 from schemas import CreateMessage, MessageInDB
 from controllers import UserController, ChatController, MessageController
 from helpers import get_user_controller, get_chat_controller, get_message_controller
 from llm import get_harry_answer
-import asyncio
+from enums import ChatSender
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 message = APIRouter(prefix="/chats")
@@ -148,12 +149,12 @@ async def send_message(
 
             user_message = CreateMessage(
                 chat_id=chat_id,
-                sender="USER",
+                sender=ChatSender.USER.value,
                 message=data
             )
 
             await message_controller.create_message(user_message)
-            await manager.send_message_to_chat(user_message.message, "USER", chat_id)
+            await manager.send_message_to_chat(user_message.message, ChatSender.USER.value, chat_id)
 
             await asyncio.sleep(0)
 
@@ -161,12 +162,12 @@ async def send_message(
 
             harry_message = CreateMessage(
                 chat_id=chat_id,
-                sender="SYSTEM",
+                sender=ChatSender.SYSTEM.value,
                 message=output
             )
 
             await message_controller.create_message(harry_message)
-            await manager.send_message_to_chat(harry_message.message, "SYSTEM", chat_id)
+            await manager.send_message_to_chat(harry_message.message, ChatSender.SYSTEM.value, chat_id)
 
             await asyncio.sleep(0)
 
