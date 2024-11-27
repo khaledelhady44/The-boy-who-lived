@@ -9,7 +9,7 @@ from llm.prompts import harry_prompt
 settings = get_settings()
 os.environ["GOOGLE_API_KEY"] =  settings.GOOGLE_API_KEY
 llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash",
+    model=settings.MODEL_NAME,
     temperature=0.7,
     max_tokens=None,
     timeout=None,

@@ -35,6 +35,7 @@ class Settings(BaseSettings):
     SECRET_KEY: str
     ALGORITHM: str
 
+    MODEL_NAME: str
     GOOGLE_API_KEY: str
 
     class Config:
