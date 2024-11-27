@@ -6,10 +6,6 @@ This repository includes the API and backend logic for the chatbot, along with t
 ![A pic for harry potter](images/harry.jpg)
 
 
-## Requirements
-
-- Python 3.8 or later
-
 #### Install Python using MiniConda
 
 1) Download and install MiniConda from [Here](https://docs.anaconda.com/free/miniconda/#quick-command-line-install)
