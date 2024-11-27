@@ -1,5 +1,7 @@
 # The-boy-who-lived
 Welcome to the Harry Potter Chatbot repository! This project features an interactive chatbot designed to bring the iconic character Harry Potter to life. Through advanced natural language processing techniques, this chatbot emulates the personality, knowledge, and charm of Harry Potter himself.
+
+This repository includes the API and backend logic for the chatbot, along with the language model integration. The frontend for this project will be hosted in a separate repository to maintain a clear separation of concerns.
 <br><br>
 ![A pic for harry potter](images/harry.jpg)
 
