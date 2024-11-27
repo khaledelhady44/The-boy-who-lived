@@ -15,11 +15,11 @@ This repository includes the API and backend logic for the chatbot, along with t
 1) Download and install MiniConda from [Here](https://docs.anaconda.com/free/miniconda/#quick-command-line-install)
 2) Create a new environment using the following command:
 ```bash
-$ conda create -n mini-rag python=3.8
+$ conda create -n harry python=3.10
 ```
 3) Activate the environment:
 ```bash
-$ conda activate mini-rag
+$ conda activate harry
 ```
 
 ## Installation
@@ -57,9 +57,10 @@ $ sudo docker compose up -d
 ## Run the FastAPI server
 
 ```bash
-$ uvicorn main:app --reload --host 0.0.0.0 --port 5000
+$ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 ## 📘 Resources:
 - mini-rag-app playlist by Eng/Abu Bakr Soliman. [Here](https://www.youtube.com/playlist?list=PLvLvlVqNQGHCUR2p0b8a0QpVjDUg50wQj)
+- langgraph documentation. [Here](https://langchain-ai.github.io/langgraph/tutorials/introduction/)
 
