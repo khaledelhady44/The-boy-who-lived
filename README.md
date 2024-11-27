@@ -6,6 +6,8 @@ This repository includes the API and backend logic for the chatbot, along with t
 ![A pic for harry potter](images/harry.jpg)
 
 
+## Requirements
+
 #### Install Python using MiniConda
 
 1) Download and install MiniConda from [Here](https://docs.anaconda.com/free/miniconda/#quick-command-line-install)
@@ -23,12 +25,14 @@ $ conda activate harry
 ### Install the required packages
 
 ```bash
+$ cd src
 $ pip install -r requirements.txt
 ```
 
 ### Setup the environment variables
 
 ```bash
+$ cd src
 $ cp .env.example .env
 ```
 
@@ -53,6 +57,7 @@ $ sudo docker compose up -d
 ## Run the FastAPI server
 
 ```bash
+$ cd src
 $ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
