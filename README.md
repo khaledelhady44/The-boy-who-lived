@@ -61,7 +61,7 @@ $ cd src
 $ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-## Demo
+## Demo 🎥
 
 Watch a video demonstration of the app in action:
 
