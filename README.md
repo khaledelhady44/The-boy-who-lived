@@ -61,6 +61,12 @@ $ cd src
 $ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
+## Demo
+
+Watch a video demonstration of the app in action:
+
+[Watch the Demo Video](https://drive.google.com/file/d/16FPqJ4xmzbkRiD4cdAYRgy1qhZmWw8dZ/view)
+
 ## 📘 Resources:
 - mini-rag-app playlist by Eng/Abu Bakr Soliman. [Here](https://www.youtube.com/playlist?list=PLvLvlVqNQGHCUR2p0b8a0QpVjDUg50wQj)
 - langgraph documentation. [Here](https://langchain-ai.github.io/langgraph/tutorials/introduction/)
